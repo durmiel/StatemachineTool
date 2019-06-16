@@ -1,9 +1,15 @@
 
 import os
 from filemanager import FileManager
+from gui import Gui
 
 
 def main():
+    ui = Gui("Statemachine Tool")
+    pass
+
+
+"""    
     filename = "TestStatemachine.txt"
     path = os.getcwd() + "\\Testdata\\" + filename
 
@@ -20,8 +26,9 @@ def main():
         print(item.getStartState())
         print(item.getEndState())
         pass
-    
+   
     pass
+"""
 
 
 if __name__ == '__main__':
