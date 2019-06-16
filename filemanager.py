@@ -40,7 +40,7 @@ class FileManager(object):
         fileContent = file.readlines()
         file.close()
 
-        statesList = []
+        stateList = []
         transitionList = []
         marker = 0
 
@@ -54,37 +54,40 @@ class FileManager(object):
             if marker == 1:
                 state = State()
                 state.setName(item[:-1])
-                statesList.append(state)
+                stateList.append(state)
                 pass
             # add transitions to list
             if marker == 2:
-                parts = item[:-1].split(",")
-                states = parts[0].split("-")
-
-                if len(parts) > 1:
-                    condition = parts[1]
-                    pass
-                else:
-                    condition = ""
-
-                transition = Transition()
-                transition.setCondition(condition)
-
-                # look for the start states in the state list
-                for state in statesList:
-                    if state.getName() == states[0]:
-                        transition.setStartState(state)
-                        break
-
-                # look for the end states in the state list
-                for state in statesList:
-                    if state.getName() == states[1]:
-                        transition.setEndState(state)
-                        break
-
+                transition = self.__decodeTransitionFromLine(item, stateList)
                 transitionList.append(transition)
                 pass
             pass
 
-        return statesList, transitionList
+        return stateList, transitionList
+        pass
+
+    def __decodeTransitionFromLine(self, line, stateList):
+        parts = line[:-1].split(",")
+        states = parts[0].split("-")
+
+        if len(parts) > 1:
+            condition = parts[1]
+            pass
+        else:
+            condition = ""
+
+        transition = Transition()
+        transition.setCondition(condition)
+
+        # look for the start states in the state list
+        for state in stateList:
+            if state.getName() == states[0]:
+                transition.setStartState(state)
+                break
+
+        # look for the end states in the state list
+        for state in stateList:
+            if state.getName() == states[1]:
+                transition.setEndState(state)
+                break
         pass
